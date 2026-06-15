@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Dices, Save } from 'lucide-react';
+import { Dices, Save, CheckCircle2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useMenuStore, useRecipeStore } from '@/store';
 import { DayCard } from './DayCard';
@@ -22,7 +22,8 @@ function resolveCurrentRecipe(
 }
 
 export function MenuPlanner() {
-  const { currentPlan, isGenerating, generateMenu, loadCurrentPlan, archivePlan } = useMenuStore();
+  const { currentPlan, isGenerating, isArchived, generateMenu, loadCurrentPlan, archivePlan } =
+    useMenuStore();
   const loadRecipes = useRecipeStore((s) => s.loadRecipes);
 
   const [replaceTarget, setReplaceTarget] = useState<ReplaceTarget | null>(null);
@@ -53,14 +54,23 @@ export function MenuPlanner() {
     <div className="space-y-6">
       {/* 控制栏 */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-        <Button
-          onClick={generateMenu}
-          disabled={isGenerating}
-          className="h-12 px-6 text-lg font-semibold"
-        >
-          <Dices className="h-5 w-5 mr-2" />
-          {isGenerating ? '生成中...' : '🎲 生成下周菜单'}
-        </Button>
+        <div className="flex items-center gap-3">
+          <Button
+            onClick={generateMenu}
+            disabled={isGenerating}
+            variant="default"
+            className="h-12 px-6 text-lg font-semibold"
+          >
+            <Dices className="h-5 w-5 mr-2" />
+            {isGenerating ? '生成中...' : '🎲 生成下周菜单'}
+          </Button>
+          {isArchived && (
+            <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-green-100 text-green-700 text-sm font-medium">
+              <CheckCircle2 className="h-4 w-4" />
+              已存档 ✓
+            </span>
+          )}
+        </div>
         <SeasonToggle />
       </div>
 
@@ -78,15 +88,16 @@ export function MenuPlanner() {
             ))}
           </div>
 
-          {/* 存档按钮 */}
+          {/* 存档按钮：已存档时置灰禁用 */}
           <div className="flex justify-center pt-4">
             <Button
               variant="secondary"
               onClick={archivePlan}
+              disabled={isArchived}
               className="h-12 px-8 text-lg font-semibold"
             >
               <Save className="h-5 w-5 mr-2" />
-              💾 保存并存档本周计划
+              {isArchived ? '✅ 本周计划已存档' : '💾 保存并存档本周计划'}
             </Button>
           </div>
         </>

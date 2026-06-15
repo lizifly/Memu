@@ -21,6 +21,7 @@ type DinnerRole = DinnerDish['role'];
 interface MenuState {
   currentPlan: WeeklyMenuPlan | null;
   isGenerating: boolean;
+  isArchived: boolean;
 
   // Actions
   generateMenu: () => Promise<void>;
@@ -136,6 +137,7 @@ async function persistPlan(plan: WeeklyMenuPlan): Promise<WeeklyMenuPlan> {
 export const useMenuStore = create<MenuState>((set, get) => ({
   currentPlan: null,
   isGenerating: false,
+  isArchived: false,
 
   generateMenu: async () => {
     set({ isGenerating: true });
@@ -154,7 +156,8 @@ export const useMenuStore = create<MenuState>((set, get) => ({
         season,
       };
       const saved = await persistPlan(plan);
-      set({ currentPlan: saved });
+      // 生成新菜单时重置存档状态
+      set({ currentPlan: saved, isArchived: false });
     } finally {
       set({ isGenerating: false });
     }
@@ -163,14 +166,19 @@ export const useMenuStore = create<MenuState>((set, get) => ({
   loadCurrentPlan: async () => {
     const all = await db.menuPlans.toArray();
     if (all.length === 0) {
-      set({ currentPlan: null });
+      set({ currentPlan: null, isArchived: false });
       return;
     }
     // 取最新一条
     const latest = all.reduce((a, b) =>
       new Date(a.createdAt).getTime() >= new Date(b.createdAt).getTime() ? a : b
     );
-    set({ currentPlan: latest });
+    // 检查该计划是否已被存档（按 weekStart 匹配）
+    const archives = await db.historyArchives
+      .where('weekStart')
+      .equals(latest.weekStart)
+      .toArray();
+    set({ currentPlan: latest, isArchived: archives.length > 0 });
   },
 
   replaceDish: async (dayIndex, mealType, dishIndex, role) => {
@@ -326,9 +334,8 @@ export const useMenuStore = create<MenuState>((set, get) => ({
       }
     }
 
-    // 清空 menuPlans 表中的当前计划
-    await db.menuPlans.clear();
-    set({ currentPlan: null });
+    // 存档完成后保留 currentPlan，仅标记为已存档，确保采购清单仍可使用
+    set({ isArchived: true });
 
     // 刷新历史记录
     await useHistoryStore.getState().loadArchives();
