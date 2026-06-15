@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { RefreshCw } from 'lucide-react';
+
 import { Badge } from '@/components/ui/badge';
 import {
   Dialog,
@@ -48,17 +49,12 @@ interface DishItemProps {
 
 export function DishItem({ recipe, role, showBadge = true, onReplace }: DishItemProps) {
   const [showDialog, setShowDialog] = useState(false);
-  const [hovered, setHovered] = useState(false);
 
   return (
     <>
-      <div
-        className="relative flex items-center gap-2 py-1.5 px-2 rounded-md hover:bg-gray-50 group"
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
-      >
+      <div className="relative flex items-center gap-2 py-1.5 px-2 rounded-md hover:bg-gray-50 group">
         <button
-          className="text-base text-gray-800 hover:text-primary-600 hover:underline cursor-pointer truncate text-left flex-1"
+          className="text-base text-gray-800 hover:text-primary-600 hover:underline cursor-pointer truncate text-left flex-1 min-w-0"
           onClick={() => setShowDialog(true)}
         >
           {recipe.name}
@@ -70,16 +66,15 @@ export function DishItem({ recipe, role, showBadge = true, onReplace }: DishItem
           </Badge>
         )}
 
-        {hovered && onReplace && (
-          <div className="absolute right-1 top-1/2 -translate-y-1/2 flex gap-1 bg-white shadow rounded-md p-0.5">
-            <button
-              onClick={(e) => { e.stopPropagation(); onReplace(); }}
-              className="p-1 rounded hover:bg-primary-50 text-primary-600"
-              title="换一个"
-            >
-              <RefreshCw className="h-4 w-4" />
-            </button>
-          </div>
+        {onReplace && (
+          <button
+            onClick={(e) => { e.stopPropagation(); onReplace(); }}
+            className="shrink-0 p-1 rounded text-primary-600 hover:bg-primary-50"
+            title="换一个"
+            aria-label="换一个"
+          >
+            <RefreshCw className="h-4 w-4" />
+          </button>
         )}
       </div>
 

@@ -22,37 +22,45 @@ export function DayCard({ day, dayIndex, onReplaceDish }: DayCardProps) {
         <div className="rounded-lg bg-amber-50 p-3">
           <h4 className="text-base font-semibold text-amber-800 mb-2">🌅 早餐</h4>
           <div className="space-y-1">
-            <div className="flex items-center gap-1.5">
+            <div className="flex items-center gap-1.5 min-w-0">
               <span className="text-sm text-amber-600 shrink-0">干食:</span>
-              <DishItem
-                recipe={day.breakfast.dry}
-                showBadge={false}
-                onReplace={() => onReplaceDish(dayIndex, 'breakfast', 0, 'dry')}
-              />
+              <div className="flex-1 min-w-0">
+                <DishItem
+                  recipe={day.breakfast.dry}
+                  showBadge={false}
+                  onReplace={() => onReplaceDish(dayIndex, 'breakfast', 0, 'dry')}
+                />
+              </div>
             </div>
-            <div className="flex items-center gap-1.5">
+            <div className="flex items-center gap-1.5 min-w-0">
               <span className="text-sm text-amber-600 shrink-0">蛋类:</span>
-              <DishItem
-                recipe={day.breakfast.egg}
-                showBadge={false}
-                onReplace={() => onReplaceDish(dayIndex, 'breakfast', 1, 'egg')}
-              />
+              <div className="flex-1 min-w-0">
+                <DishItem
+                  recipe={day.breakfast.egg}
+                  showBadge={false}
+                  onReplace={() => onReplaceDish(dayIndex, 'breakfast', 1, 'egg')}
+                />
+              </div>
             </div>
-            <div className="flex items-center gap-1.5">
+            <div className="flex items-center gap-1.5 min-w-0">
               <span className="text-sm text-amber-600 shrink-0">成人稀食:</span>
-              <DishItem
-                recipe={day.breakfast.wet_adult}
-                showBadge={false}
-                onReplace={() => onReplaceDish(dayIndex, 'breakfast', 2, 'wet_adult')}
-              />
+              <div className="flex-1 min-w-0">
+                <DishItem
+                  recipe={day.breakfast.wet_adult}
+                  showBadge={false}
+                  onReplace={() => onReplaceDish(dayIndex, 'breakfast', 2, 'wet_adult')}
+                />
+              </div>
             </div>
-            <div className="flex items-center gap-1.5">
+            <div className="flex items-center gap-1.5 min-w-0">
               <span className="text-sm text-purple-600 shrink-0">儿童稀食:</span>
-              <DishItem
-                recipe={day.breakfast.wet_kid}
-                showBadge={false}
-                onReplace={() => onReplaceDish(dayIndex, 'breakfast', 3, 'wet_kid')}
-              />
+              <div className="flex-1 min-w-0">
+                <DishItem
+                  recipe={day.breakfast.wet_kid}
+                  showBadge={false}
+                  onReplace={() => onReplaceDish(dayIndex, 'breakfast', 3, 'wet_kid')}
+                />
+              </div>
             </div>
           </div>
         </div>
