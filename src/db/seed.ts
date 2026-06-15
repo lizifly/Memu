@@ -1704,15 +1704,6 @@ export const SEED_RECIPES: Omit<Recipe, 'id'>[] = [
     history_dates: [],
   },
   {
-    name: '蒸馒头',
-    category: 'staple_normal',
-    tags: [],
-    ingredients: ['面粉', '酵母', '白糖', '温水'],
-    instructions: '1. 发面至两倍大；2. 揉光排气分剂；3. 揉成馒头胚；4. 二次醒发 20 分钟；5. 冷水上锅蒸 15 分钟。',
-    rating: null,
-    history_dates: [],
-  },
-  {
     name: '家常烙饼',
     category: 'staple_normal',
     tags: [],
