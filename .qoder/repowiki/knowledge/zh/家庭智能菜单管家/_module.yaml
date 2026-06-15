@@ -1,0 +1,28 @@
+schema_version: 1
+module_path: ""
+title: 家庭智能菜单管家
+scope:
+    - src/
+    - README.md
+    - .gitignore
+    - package.json
+    - vite.config.ts
+    - tsconfig.json
+    - index.html
+    - eslint.config.js
+    - package-lock.json
+    - screenshot_10_history_archived.png
+    - screenshot_1_homepage.png
+    - screenshot_2_shopping_list.png
+    - screenshot_3_recipe_management.png
+    - screenshot_4_history.png
+    - screenshot_5_menu_generated.png
+    - screenshot_6_recipe_filter.png
+    - screenshot_7_recipe_search.png
+    - screenshot_8_shopping_list_generated.png
+    - screenshot_9_shopping_list_progress.png
+    - tsconfig.app.json
+    - tsconfig.node.json
+source_files: []
+depends_on: []
+related_to: []
